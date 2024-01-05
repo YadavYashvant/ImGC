@@ -142,9 +142,3 @@ fun SummarizeScreen(
         }
     }
 }
-
-@Composable
-@Preview(showSystemUi = true)
-fun SummarizeScreenPreview() {
-    SummarizeScreen()
-}
