@@ -61,6 +61,8 @@ import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.request.ImageResult
+import com.example.geminie.ui.animations.AnimatedPreloaderDog
+import com.example.geminie.ui.animations.AnimatedPreloaderLoading
 import com.google.ai.client.generativeai.GenerativeModel
 import com.example.geminie.ui.theme.GeminieTheme
 import com.example.geminie.ui.theme.blackV
@@ -150,7 +152,9 @@ fun GetImgContextScreen(
                         fontWeight = FontWeight.Medium,
                         color = redV
                     ),
-                    modifier = Modifier.padding(horizontal = 8.dp).align(Alignment.CenterHorizontally)
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .align(Alignment.CenterHorizontally)
                 )
                 Spacer(modifier = Modifier.size(20.dp))
 
@@ -242,16 +246,32 @@ fun GetImgContextScreen(
             when (uiState) {
                 SummarizeUiState.Initial -> {
                     // Nothing is shown
+                    AnimatedPreloaderDog(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                            .clip(RoundedCornerShape(16.dp))
+
+                    )
                 }
 
                 SummarizeUiState.Loading -> {
-                    Box(
+
+                    AnimatedPreloaderLoading(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.CenterHorizontally)
+                            .height(250.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                    )
+
+                    /*Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .padding(all = 8.dp)
                     ) {
                         CircularProgressIndicator()
-                    }
+                    }*/
                 }
 
                 is SummarizeUiState.Success -> {
