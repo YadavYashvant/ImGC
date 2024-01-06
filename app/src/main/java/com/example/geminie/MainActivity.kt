@@ -281,6 +281,8 @@ fun GetImgContextScreen(
                         modifier = Modifier.padding(all = 8.dp)
                     )
                 }
+
+                else -> {}
             }
         }
 }
