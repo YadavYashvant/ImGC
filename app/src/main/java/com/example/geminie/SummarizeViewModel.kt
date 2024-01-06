@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SummarizeViewModel(
+class GetImgContextViewmodel(
         private val generativeModel: GenerativeModel
 ) : ViewModel() {
 

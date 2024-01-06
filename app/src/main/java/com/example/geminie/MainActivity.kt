@@ -85,9 +85,8 @@ class MainActivity : ComponentActivity() {
                             modelName = "gemini-pro-vision",
                             apiKey = BuildConfig.apiKey
                     )
-                    //val uriReader = UriReader(applicationContext)
-                    val viewModel = SummarizeViewModel(generativeModel)
-                    SummarizeRoute(viewModel)
+                    val viewModel = GetImgContextViewmodel(generativeModel)
+                    GetImgContextRoute(viewModel)
                 }
             }
         }
@@ -95,12 +94,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-internal fun SummarizeRoute(
-        summarizeViewModel: SummarizeViewModel = viewModel()
+internal fun GetImgContextRoute(
+        summarizeViewModel: GetImgContextViewmodel = viewModel()
 ) {
     val summarizeUiState by summarizeViewModel.uiState.collectAsState()
 
-    SummarizeScreen(summarizeUiState, onSummarizeClicked = { inputText ->
+    GetImgContextScreen(summarizeUiState, onSummarizeClicked = { inputText ->
         //summarizeViewModel.summarize(inputText)
         summarizeViewModel.findContextOfImage(inputText)
     })
@@ -108,15 +107,10 @@ internal fun SummarizeRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SummarizeScreen(
+fun GetImgContextScreen(
         uiState: SummarizeUiState = SummarizeUiState.Initial,
         onSummarizeClicked: (Bitmap) -> Unit = {}
 ) {
-    var prompt by remember { mutableStateOf("") }
-    /*//val verticalScroll = rememberScrollState()
-    *//*Column(
-        modifier = Modifier.verticalScroll(verticalScroll)
-    ) {*/
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -245,39 +239,6 @@ fun SummarizeScreen(
 
                 }
             }
-            /*TextField(
-                value = prompt,
-                shape = MaterialTheme.shapes.medium,
-                label = { Text(stringResource(R.string.summarize_label)) },
-                placeholder = { Text(stringResource(R.string.summarize_hint)) },
-                onValueChange = { prompt = it },
-                modifier = Modifier
-                    .weight(8f)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .defaultMinSize(minHeight = 100.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
-                )
-            )
-            TextButton(
-                onClick = {
-                    if (prompt.isNotBlank()) {
-                        onSummarizeClicked(prompt)
-                    }
-                },
-
-                modifier = Modifier
-                    .weight(2f)
-                    .padding(all = 8.dp)
-                    .height(30.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(stringResource(R.string.action_go))
-            }
-             */
-
             when (uiState) {
                 SummarizeUiState.Initial -> {
                     // Nothing is shown
@@ -322,53 +283,6 @@ fun SummarizeScreen(
                 }
             }
         }
-
-}
-
-
-@Composable
-fun ImageSelector(onImageSelected: (Uri) -> Unit) {
-    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-
-    // Create an ActivityResultLauncher to launch the image picker
-    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        if (uri != null) {
-            selectedImageUri = uri
-            onImageSelected(uri)
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        // Display selected image if available
-        selectedImageUri?.let { uri ->
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(shape = MaterialTheme.shapes.medium),
-                contentScale = ContentScale.Crop
-            )
-        }
-
-        // Button to launch the image picker
-        Button(
-            onClick = { getContent.launch("image/*") },
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .fillMaxWidth(),
-            colors = ButtonDefaults.textButtonColors(containerColor = MaterialTheme.colorScheme.primary)
-        ) {
-            Icon(imageVector = Icons.Default.Email, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Select Image")
-        }
-    }
 }
 
 suspend fun loadBitmapFromUri(
