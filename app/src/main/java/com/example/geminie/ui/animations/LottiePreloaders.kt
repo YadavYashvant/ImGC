@@ -36,7 +36,7 @@ fun AnimatedPreloaderDog(modifier: Modifier = Modifier) {
 fun AnimatedPreloaderLoading(modifier: Modifier = Modifier) {
     val preloaderLottieComposition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(
-            R.raw.hamster
+            R.raw.loading1
         )
     )
 
