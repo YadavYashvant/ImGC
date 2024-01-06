@@ -264,14 +264,6 @@ fun GetImgContextScreen(
                             .height(250.dp)
                             .clip(RoundedCornerShape(16.dp))
                     )
-
-                    /*Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .padding(all = 8.dp)
-                    ) {
-                        CircularProgressIndicator()
-                    }*/
                 }
 
                 is SummarizeUiState.Success -> {
