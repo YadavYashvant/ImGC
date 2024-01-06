@@ -234,7 +234,7 @@ fun SummarizeScreen(
 
                         //Icon(imageVector = (Icons.Default.Add), contentDescription = null)
 
-                        Text(text = "Generate",
+                        Text(text = "Get Context",
                             style = androidx.compose.ui.text.TextStyle(
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Medium,
