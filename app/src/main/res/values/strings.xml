@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Geminie</string>
+    <string name="app_name">ImGC</string>
     <string name="action_go">Go</string>
     <string name="summarize_label">Text to summarize</string>
     <string name="summarize_hint">Enter text or a URL to summarize</string>

@@ -95,13 +95,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 internal fun GetImgContextRoute(
-        summarizeViewModel: GetImgContextViewmodel = viewModel()
+        getImgContextViewmodel: GetImgContextViewmodel = viewModel()
 ) {
-    val summarizeUiState by summarizeViewModel.uiState.collectAsState()
+    val summarizeUiState by getImgContextViewmodel.uiState.collectAsState()
 
     GetImgContextScreen(summarizeUiState, onSummarizeClicked = { inputText ->
         //summarizeViewModel.summarize(inputText)
-        summarizeViewModel.findContextOfImage(inputText)
+        getImgContextViewmodel.findContextOfImage(inputText)
     })
 }
 
@@ -131,7 +131,7 @@ fun GetImgContextScreen(
 
             LaunchedEffect(selectedImageUri) {
                 if (selectedImageUri != null) {
-                    // Pass the coroutineScope to loadBitmapFromUri
+                    // Passing the coroutineScope to loadBitmapFromUri
                     loadBitmapFromUri(mContext, selectedImageUri!!, coroutineScope) { loadedBitmap ->
                         bitmap = loadedBitmap
                     }
