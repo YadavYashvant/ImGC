@@ -32,12 +32,16 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -54,6 +58,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -145,7 +150,6 @@ fun GetImgContextScreen(
                     //.fillMaxSize()
                     .padding(16.dp)
             ) {
-
                 Text(text = "Choose a random photo",
                     style = androidx.compose.ui.text.TextStyle(
                         fontSize = 24.sp,
@@ -206,6 +210,56 @@ fun GetImgContextScreen(
                     contentScale = ContentScale.Crop,
                     model = selectedImageUri,
                     contentDescription = null)
+
+                val checkedState = remember { mutableStateOf(false) }
+                var value by remember { mutableStateOf("") }
+                val onValueChange: (String) -> Unit = { value = it }
+                // in below line we are displaying a row
+                // and we are creating a checkbox in a row.
+                Row {
+                    Checkbox(
+                        // below line we are setting
+                        // the state of checkbox.
+                        checked = checkedState.value,
+                        // below line is use to add padding
+                        // to our checkbox.
+                        modifier = Modifier.padding(horizontal = 16.dp),
+
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = redV,
+                            uncheckedColor = Color.White,
+                            checkmarkColor = Color.White
+                        ),
+                        // below line is use to add on check
+                        // change to our checkbox.
+                        onCheckedChange = { checkedState.value = it },
+                    )
+                    // below line is use to add text to our check box and we are
+                    // adding padding to our text of checkbox
+                    Text(text = "Advanced Mode", modifier = Modifier.align(Alignment.CenterVertically), color = Color.White)
+                }
+
+                if(checkedState.value) {
+                    TextField(
+                        value = value,
+                        onValueChange = onValueChange,
+                        shape = MaterialTheme.shapes.extraLarge,
+                        placeholder = {
+                            Text(
+                                text = "Enter a prompt!",
+                                //fontFamily = com.example.codev.spacefamily,
+                                textAlign = TextAlign.Center,
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .height(56.dp),
+                        colors = TextFieldDefaults.textFieldColors(
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent
+                        ))
+                }
 
                 Spacer(modifier = Modifier.size(20.dp))
 
