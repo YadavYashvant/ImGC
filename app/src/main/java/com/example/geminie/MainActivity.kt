@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -160,14 +161,6 @@ fun GetImgContextScreen(
 
             ) {
 
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        //.background(color = blackV)
-                        .clip(RoundedCornerShape(32.dp))
-                        .padding(horizontal = 12.dp, vertical = 12.dp),
-                ) {
-
                     Text(
                         text = "Choose a random photo",
                         style = androidx.compose.ui.text.TextStyle(
@@ -226,7 +219,7 @@ fun GetImgContextScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(250.dp)
-                            .padding(horizontal = 8.dp)
+                            .padding(horizontal = 16.dp)
                             .clip(RoundedCornerShape(16.dp)),
                         contentScale = ContentScale.Crop,
                         model = selectedImageUri,
@@ -238,7 +231,13 @@ fun GetImgContextScreen(
                     val onValueChange: (String) -> Unit = { value = it }
                     // in below line we are displaying a row
                     // and we are creating a checkbox in a row.
-                    Row {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Checkbox(
                             // below line we are setting
                             // the state of checkbox.
@@ -272,15 +271,16 @@ fun GetImgContextScreen(
                             shape = MaterialTheme.shapes.medium,
                             placeholder = {
                                 Text(
-                                    text = "Enter a prompt!",
+                                    text = "Ask anthing about the image!",
                                     //fontFamily = com.example.codev.spacefamily,
                                     textAlign = TextAlign.Center,
                                 )
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .height(100.dp),
+                                .padding(horizontal = 16.dp)
+                                .defaultMinSize(minHeight = 56.dp),
+                            minLines = 2,
                             colors = TextFieldDefaults.textFieldColors(
                                 unfocusedIndicatorColor = blueV,
                                 focusedIndicatorColor = Color.Transparent,
@@ -288,7 +288,7 @@ fun GetImgContextScreen(
                         )
                     }
 
-                    Spacer(modifier = Modifier.size(20.dp))
+                    Spacer(modifier = Modifier.size(8.dp))
 
                     Button(
                         onClick = {
@@ -328,10 +328,6 @@ fun GetImgContextScreen(
 
                     }
                 }
-
-            }
-            //fkdsl;akjdfla;s
-
 
             when (uiState) {
                 SummarizeUiState.Initial -> {
@@ -402,7 +398,7 @@ fun GetImgContextScreen(
 
 suspend fun loadBitmapFromUri(
     context: Context,
-    uri: android.net.Uri,
+    uri: Uri,
     coroutineScope: CoroutineScope,
     onBitmapLoaded: (Bitmap) -> Unit
 ) {
