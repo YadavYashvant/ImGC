@@ -43,21 +43,4 @@ class GetImgContextViewmodel(
             }
         }
     }
-
-    fun summarize(inputText: String) {
-        _uiState.value = SummarizeUiState.Loading
-
-        val prompt = "Summarize the following text for me: $inputText"
-
-        viewModelScope.launch {
-            try {
-                val response = generativeModel.generateContent(prompt)
-                response.text?.let { outputContent ->
-                    _uiState.value = SummarizeUiState.Success(outputContent)
-                }
-            } catch (e: Exception) {
-                _uiState.value = SummarizeUiState.Error(e.localizedMessage ?: "")
-            }
-        }
-    }
 }
