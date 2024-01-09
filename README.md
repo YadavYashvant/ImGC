@@ -10,6 +10,10 @@ and also ask questions about the picture.
 Here is a demo video of the app -
 
 
+https://github.com/YadavYashvant/ImGC/assets/113130559/a1c15b34-aea1-47bf-bb19-07c70382fab3
+
+
+
 ## Run Locally
 
 Clone the project
