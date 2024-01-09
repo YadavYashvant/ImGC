@@ -19,14 +19,19 @@ class GetImgContextViewmodel(
     val uiState: StateFlow<SummarizeUiState> =
             _uiState.asStateFlow()
 
-    fun findContextOfImage(uri: Bitmap) {
+    fun findContextOfImage(uri: Bitmap, prompt: String?, isAdv: Boolean, ) {
         _uiState.value = SummarizeUiState.Loading
 
         viewModelScope.launch {
             try {
                 val response = generativeModel.generateContent(
                     content { image(uri ?: return@content)
-                        text("Find the context of the following image")
+                        if(prompt!=null && isAdv) {
+                            text(prompt)
+                        }
+                        else{
+                            text("Find the context of the following image")
+                        }
                     }
                         //"Find the context of the following image: $uri"
                 )

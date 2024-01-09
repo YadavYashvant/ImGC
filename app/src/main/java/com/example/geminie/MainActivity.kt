@@ -10,10 +10,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,19 +20,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -56,7 +51,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -76,7 +70,6 @@ import com.example.geminie.ui.theme.redV
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.format.TextStyle
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,9 +99,9 @@ internal fun GetImgContextRoute(
 ) {
     val summarizeUiState by getImgContextViewmodel.uiState.collectAsState()
 
-    GetImgContextScreen(summarizeUiState, onSummarizeClicked = { inputText ->
+    GetImgContextScreen(summarizeUiState, onSummarizeClicked = { inputImage,prompt, isAdv->
         //summarizeViewModel.summarize(inputText)
-        getImgContextViewmodel.findContextOfImage(inputText)
+        getImgContextViewmodel.findContextOfImage(inputImage, prompt, isAdv)
     })
 }
 
@@ -116,7 +109,7 @@ internal fun GetImgContextRoute(
 @Composable
 fun GetImgContextScreen(
         uiState: SummarizeUiState = SummarizeUiState.Initial,
-        onSummarizeClicked: (Bitmap) -> Unit = {}
+        onSummarizeClicked: (Bitmap, String, Boolean) -> Unit = { bitmap: Bitmap, s: String ,isAdv: Boolean ->}
 ) {
         Column(
             modifier = Modifier
@@ -243,7 +236,7 @@ fun GetImgContextScreen(
                     TextField(
                         value = value,
                         onValueChange = onValueChange,
-                        shape = MaterialTheme.shapes.extraLarge,
+                        shape = MaterialTheme.shapes.medium,
                         placeholder = {
                             Text(
                                 text = "Enter a prompt!",
@@ -253,18 +246,18 @@ fun GetImgContextScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                            .height(56.dp),
+                            .padding(horizontal = 8.dp)
+                            .height(100.dp),
                         colors = TextFieldDefaults.textFieldColors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent
+                            unfocusedIndicatorColor = blueV,
+                            focusedIndicatorColor = Color.Transparent,
                         ))
                 }
 
                 Spacer(modifier = Modifier.size(20.dp))
 
                 Button(onClick = {
-                                 onSummarizeClicked(bitmap!!)
+                                 onSummarizeClicked(bitmap!!, value, checkedState.value)
                 },
                     modifier = Modifier
                         .fillMaxWidth()

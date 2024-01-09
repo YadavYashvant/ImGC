@@ -14,7 +14,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 fun AnimatedPreloaderDog(modifier: Modifier = Modifier) {
     val preloaderLottieComposition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(
-            R.raw.dog
+            R.raw.waiting
         )
     )
 
